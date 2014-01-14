@@ -22,7 +22,7 @@
 
 - (instancetype)initWithSearch:(NSString *)query
 {
-    if ([super initWithNibName:nil bundle:nil])
+    if (self = [super initWithNibName:nil bundle:nil])
     {
         self.title = NSLocalizedString(@"Product Search", @"Product Search");
         

@@ -15,11 +15,6 @@
 @property (nonatomic, copy) NSString *barcodeNumber;
 @property (nonatomic, copy) NSString *price;
 
-@property (nonatomic, assign) NSUInteger ratingsUp;
-@property (nonatomic, assign) NSUInteger ratingsDown;
-
-@property (nonatomic, assign, getter = isValid) BOOL valid;
-
 - (instancetype)initWithJSON:(NSDictionary *)JSON;
 
 /**

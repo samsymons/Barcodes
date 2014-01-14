@@ -7,3 +7,8 @@
 //
 
 FOUNDATION_EXPORT NSString *const kShouldBeginCapturingMetadataNotification;
+
+// Errors:
+
+FOUNDATION_EXPORT NSString * const kSOSErrorDomain;
+FOUNDATION_EXPORT NSInteger const kBarcodeInvalidError;

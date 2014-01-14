@@ -35,7 +35,7 @@
 
 - (instancetype)init
 {
-    if ([super initWithNibName:nil bundle:nil])
+    if (self = [super initWithNibName:nil bundle:nil])
     {
         self.view.backgroundColor = [UIColor blackColor];
     }
@@ -153,6 +153,11 @@
         if (!error)
         {
             [self presentBrowserViewControllerWithInformation:barcodeInformation];
+        }
+        else
+        {
+            [TSMessage showNotificationWithTitle:@"Invalid barcode" subtitle:nil type:TSMessageNotificationTypeError];
+            [self startCapturingMetadata];
         }
     }];
 }

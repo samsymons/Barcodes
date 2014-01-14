@@ -18,12 +18,6 @@
         _itemDescription = JSON[@"description"];
         _barcodeNumber = JSON[@"number"];
         _price = JSON[@"price"];
-        
-        /*
-        _ratingsDown = [[JSON valueForKey:@"ratingsdown"] unsignedIntegerValue];
-        _ratingsUp = [[JSON valueForKey:@"ratingsup"] unsignedIntegerValue];
-        _valid = [[JSON valueForKey:@"valid"] boolValue];
-         */
     }
     
     return self;

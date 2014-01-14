@@ -36,11 +36,22 @@ NSString * const kUPCDatabaseAPIEndpoint = @"http://www.upcdatabase.org/api/json
         }
         
         NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-        SOSBarcodeInformation *barcodeInformation = [[SOSBarcodeInformation alloc] initWithJSON:responseData];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            completion(barcodeInformation, nil);
-        }); 
+        if ([[responseData valueForKey:@"valid"] boolValue])
+        {
+            SOSBarcodeInformation *barcodeInformation = [[SOSBarcodeInformation alloc] initWithJSON:responseData];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(barcodeInformation, nil);
+            });
+        }
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(nil, [NSError errorWithDomain:kSOSErrorDomain code:kBarcodeInvalidError userInfo:nil]);
+            });
+        }
+        
     }];
     
     [informationDataTask resume];

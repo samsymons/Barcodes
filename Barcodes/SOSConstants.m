@@ -7,3 +7,6 @@
 //
 
 NSString *const kShouldBeginCapturingMetadataNotification = @"kShouldBeginCapturingMetadataNotification";
+
+NSString *const kSOSErrorDomain = @"kSOSErrorDomain";
+NSInteger const kBarcodeInvalidError = 1;
