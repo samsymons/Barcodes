@@ -1,6 +1,6 @@
 # Barcodes
 
-Barcodes is a simple app for scanning barcodes, looking them up on [UPC Database](http://upcdatabase.org), and searching for the result on [Duck Duck Go](https://duckduckgo.com).
+Barcodes is a simple app for scanning barcodes, looking them up on [UPC Database](http://upcdatabase.org), and searching for the result on [DuckDuckGo](https://duckduckgo.com).
 
 ## Setting Up
 
