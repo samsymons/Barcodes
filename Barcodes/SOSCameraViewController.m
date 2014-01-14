@@ -130,7 +130,7 @@
         [[self captureSession] addOutput:self.metadataOutput];
     }
     
-    _metadataOutput.metadataObjectTypes = @[AVMetadataObjectTypeUPCECode, AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeEAN13Code];
+    self.metadataOutput.metadataObjectTypes = @[AVMetadataObjectTypeUPCECode, AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeEAN13Code];
 }
 
 - (void)stopCapturingMetadata
@@ -148,6 +148,8 @@
     [TSMessage showNotificationWithTitle:@"Barcode detected" subtitle:@"Searching for information..." type:TSMessageNotificationTypeSuccess];
     
     [SOSBarcodeInformationRequest informationForUPC:barcode.stringValue completion:^(SOSBarcodeInformation *barcodeInformation, NSError *error) {
+        [TSMessage dismissActiveNotification];
+        
         if (!error)
         {
             [self presentBrowserViewControllerWithInformation:barcodeInformation];

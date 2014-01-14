@@ -18,7 +18,7 @@ typedef void(^SOSInformationCompletionBlock)(SOSBarcodeInformation *information,
  Gets information for a barcode with a given UPC.
  
  @param code The UPC to look up.
- @param completion The optional completion handler.
+ @param completion The optional completion handler. Will be called on the main thread.
  */
 + (NSURLSessionDataTask *)informationForUPC:(NSString *)code completion:(SOSInformationCompletionBlock)completion;
 

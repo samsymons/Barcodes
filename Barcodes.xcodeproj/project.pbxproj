@@ -170,8 +170,6 @@
 			children = (
 				4BE63B791885A46A003D7A93 /* SOSAppDelegate.h */,
 				4BE63B7A1885A46A003D7A93 /* SOSAppDelegate.m */,
-				4BE63BDE1885D4B4003D7A93 /* SOSConstants.h */,
-				4BE63BDF1885D4B4003D7A93 /* SOSConstants.m */,
 				4BE63BAA1885C8EE003D7A93 /* View Controllers */,
 				4BE63BA91885C8DC003D7A93 /* Networking */,
 				4BE63BA21885C05E003D7A93 /* Model */,
@@ -185,6 +183,8 @@
 		4BE63B711885A46A003D7A93 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4BE63BDE1885D4B4003D7A93 /* SOSConstants.h */,
+				4BE63BDF1885D4B4003D7A93 /* SOSConstants.m */,
 				4BE63B721885A46A003D7A93 /* Barcodes-Info.plist */,
 				4BE63B731885A46A003D7A93 /* InfoPlist.strings */,
 				4BE63B761885A46A003D7A93 /* main.m */,
