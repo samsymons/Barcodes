@@ -216,7 +216,6 @@
     [self stopCapturingMetadata];
     
     AVMetadataMachineReadableCodeObject *barcode = [metadataObjects firstObject];
-    // AVMetadataObject *transformedBarcode = [[self previewLayer] transformedMetadataObjectForMetadataObject:barcode];
     
     [TSMessage showNotificationWithTitle:@"Barcode detected" subtitle:@"Searching for information..." type:TSMessageNotificationTypeSuccess];
     

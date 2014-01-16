@@ -7,8 +7,8 @@
 //
 //  The scanner uses http://upcdatabase.org/api for looking up products.
 
-/// #error You need to provide your API key
-NSString * const kUPCDatabaseAPIKey = @"67a3d70eee1ffa25f95028df56479d2f";
+#error You need to provide your API key
+NSString * const kUPCDatabaseAPIKey = @"";
 NSString * const kUPCDatabaseAPIEndpoint = @"http://www.upcdatabase.org/api/json";
 
 #import "SOSBarcodeInformationRequest.h"
