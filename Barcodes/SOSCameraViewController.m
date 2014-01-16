@@ -24,11 +24,15 @@
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *previewLayer;
 @property (nonatomic, strong) CALayer *barcodeIndicatorLayer;
 
+@property (nonatomic, strong) UIButton *torchToggleButton;
+
 - (AVCaptureDevice *)backCamera;
 - (void)presentBrowserViewControllerWithInformation:(SOSBarcodeInformation *)information;
 
 - (void)startCapturingMetadata;
 - (void)stopCapturingMetadata;
+
+- (void)toggleTorch;
 
 @end
 
@@ -49,13 +53,16 @@
     return YES;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kShouldBeginCapturingMetadataNotification object:nil];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     [TSMessage setDefaultViewController:self];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startCapturingMetadata) name:kShouldBeginCapturingMetadataNotification object:nil];
     
     // Set up the capture session:
     
@@ -86,6 +93,23 @@
     [[[self view] layer] addSublayer:self.previewLayer];
     
     [[self captureSession] startRunning];
+    
+    // Set up torch button, with layout constraints:
+    
+    if ([[self captureDevice] hasTorch])
+    {
+        [[self view] addSubview:self.torchToggleButton];
+        [[self torchToggleButton] addTarget:self action:@selector(toggleTorch) forControlEvents:UIControlEventTouchUpInside];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startCapturingMetadata) name:kShouldBeginCapturingMetadataNotification object:nil];
+        
+        NSLayoutConstraint *verticalConstraint = [NSLayoutConstraint constraintWithItem:self.torchToggleButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:0.0f constant:10.0f];
+        
+        NSLayoutConstraint *horizontalConstraint = [NSLayoutConstraint constraintWithItem:self.torchToggleButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:0.0f constant:10.0f];
+        
+        [[self view] addConstraint:verticalConstraint];
+        [[self view] addConstraint:horizontalConstraint];
+    }
 }
 
 - (AVCaptureMetadataOutput *)metadataOutput
@@ -111,6 +135,25 @@
     }
     
     return _barcodeIndicatorLayer;
+}
+
+- (UIButton *)torchToggleButton
+{
+    if (!_torchToggleButton)
+    {
+        _torchToggleButton = [[UIButton alloc] init];
+        _torchToggleButton.alpha = 1.0;
+        _torchToggleButton.tintColor = [UIColor whiteColor];
+        _torchToggleButton.translatesAutoresizingMaskIntoConstraints = NO;
+        _torchToggleButton.accessibilityLabel = NSLocalizedString(@"Activate Flash", @"Activate Flash");
+        
+        UIImage *torchImage = [UIImage imageNamed:@"Torch"];
+        torchImage = [torchImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        
+        [_torchToggleButton setImage:torchImage forState:UIControlStateNormal];
+    }
+    
+    return _torchToggleButton;
 }
 
 #pragma mark - Private
@@ -151,6 +194,19 @@
 - (void)stopCapturingMetadata
 {
     [[self captureSession] removeOutput:self.metadataOutput];
+}
+
+- (void)toggleTorch
+{
+    BOOL torchCurrentlyOff = [[self captureDevice] torchMode] == AVCaptureTorchModeOff;
+    AVCaptureTorchMode torchMode = torchCurrentlyOff ? AVCaptureTorchModeOn : AVCaptureTorchModeOff;
+    
+    NSError *configurationLock = nil;
+    
+    if ([[self captureDevice] lockForConfiguration:&configurationLock])
+    {
+        [[self captureDevice] setTorchMode:torchMode];
+    }
 }
 
 #pragma mark - AVCaptureMetadataOutputObjectsDelegate
