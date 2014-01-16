@@ -22,6 +22,7 @@
 @property (nonatomic, strong) AVCaptureMetadataOutput *metadataOutput;
 
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *previewLayer;
+@property (nonatomic, strong) CALayer *barcodeIndicatorLayer;
 
 - (AVCaptureDevice *)backCamera;
 - (void)presentBrowserViewControllerWithInformation:(SOSBarcodeInformation *)information;
@@ -98,6 +99,20 @@
     return _metadataOutput;
 }
 
+- (CALayer *)barcodeIndicatorLayer
+{
+    if (!_barcodeIndicatorLayer)
+    {
+        _barcodeIndicatorLayer = [CALayer layer];
+        _barcodeIndicatorLayer.opacity = 0.75;
+        _barcodeIndicatorLayer.backgroundColor = [[UIColor redColor] CGColor];
+        
+        [[self previewLayer] addSublayer:_barcodeIndicatorLayer];
+    }
+    
+    return _barcodeIndicatorLayer;
+}
+
 #pragma mark - Private
 
 - (AVCaptureDevice *)backCamera
@@ -145,6 +160,8 @@
     [self stopCapturingMetadata];
     
     AVMetadataMachineReadableCodeObject *barcode = [metadataObjects firstObject];
+    // AVMetadataObject *transformedBarcode = [[self previewLayer] transformedMetadataObjectForMetadataObject:barcode];
+    
     [TSMessage showNotificationWithTitle:@"Barcode detected" subtitle:@"Searching for information..." type:TSMessageNotificationTypeSuccess];
     
     [SOSBarcodeInformationRequest informationForUPC:barcode.stringValue completion:^(SOSBarcodeInformation *barcodeInformation, NSError *error) {
