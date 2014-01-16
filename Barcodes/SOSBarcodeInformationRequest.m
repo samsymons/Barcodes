@@ -35,7 +35,14 @@ NSString * const kUPCDatabaseAPIEndpoint = @"http://www.upcdatabase.org/api/json
             return;
         }
         
-        NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+        NSError *parsingError = nil;
+        NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parsingError];
+        
+        if (parsingError)
+        {
+            completion(nil, parsingError);
+            return;
+        }
         
         if ([[responseData valueForKey:@"valid"] boolValue])
         {
