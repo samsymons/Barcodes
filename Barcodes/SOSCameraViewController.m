@@ -164,7 +164,7 @@
     
     for (AVCaptureDevice *device in devices)
     {
-        if ([device hasMediaType:AVMediaTypeVideo] && [device position] == AVCaptureDevicePositionBack)
+        if ([device hasMediaType:AVMediaTypeVideo] && [device position] == AVCaptureDevicePositionFront)
         {
             return device;
         }
@@ -206,6 +206,7 @@
     if ([[self captureDevice] lockForConfiguration:&configurationLock])
     {
         [[self captureDevice] setTorchMode:torchMode];
+        [[self captureDevice] unlockForConfiguration];
     }
 }
 
